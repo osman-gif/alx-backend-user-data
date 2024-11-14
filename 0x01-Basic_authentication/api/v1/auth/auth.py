@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """
 defines a class that is the template for all authentication system
 you will implement.
