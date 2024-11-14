@@ -8,6 +8,7 @@ authentication mechanism:
 
 import uuid
 from api.v1.auth.auth import Auth
+import os
 
 
 class SessionAuth(Auth):
@@ -33,3 +34,11 @@ class SessionAuth(Auth):
         if session_id is None or type(session_id) is not str:
             return None
         return SessionAuth.user_id_by_session_id.get(session_id)
+
+    def session_cookie(self, request=None):
+        """ Return a cookie value from a request
+        """
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME')
+        return request.cookies.get(session_name)
