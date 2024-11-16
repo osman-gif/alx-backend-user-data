@@ -11,6 +11,7 @@ from api.v1.auth.auth import Auth
 import os
 from api.v1.views.users import User
 
+
 class SessionAuth(Auth):
     """ SessionAuth class
     """
