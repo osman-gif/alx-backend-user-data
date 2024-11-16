@@ -9,7 +9,7 @@ authentication mechanism:
 import uuid
 from api.v1.auth.auth import Auth
 import os
-
+from api.v1.views.users import User
 
 class SessionAuth(Auth):
     """ SessionAuth class
@@ -22,7 +22,7 @@ class SessionAuth(Auth):
         """
         if user_id is None or type(user_id) is not str:
             return None
-        session_id = uuid.uuid4()
+        session_id = str(uuid.uuid4())
         if session_id is None:
             return None
         SessionAuth.user_id_by_session_id[session_id] = user_id
@@ -33,12 +33,9 @@ class SessionAuth(Auth):
         """
         if session_id is None or type(session_id) is not str:
             return None
-        return SessionAuth.user_id_by_session_id.get(session_id)
+        return str(SessionAuth.user_id_by_session_id.get(session_id))
 
-    def session_cookie(self, request=None):
-        """ Return a cookie value from a request
-        """
-        if request is None:
-            return None
-        session_name = os.getenv('SESSION_NAME')
-        return request.cookies.get(session_name)
+    def current_user(self, request=None):
+        session_id = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_id)
+        return User.get(user_id)
