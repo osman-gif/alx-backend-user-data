@@ -39,6 +39,10 @@ def login():
             session_name = os.getenv('SESSION_NAME')
             response.set_cookie(session_name, session_id)
             return response
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'], strict_slashes=False)
 def logout():
     """ DELETE /auth_session/logout
     """
