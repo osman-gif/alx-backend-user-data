@@ -57,7 +57,7 @@ class Auth:
         generate a uuid
         """
         import uuid
-        return str(uuid.uuid4())
+        return str(uuid.UUID())
 
 
 def _hash_password(password: str):
