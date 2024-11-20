@@ -52,6 +52,13 @@ class Auth:
         except NoResultFound:
             return False
 
+    def _generate_uuid(self):
+        """
+        generate a uuid
+        """
+        import uuid
+        return str(uuid.uuid4())
+
 
 def _hash_password(password: str):
     """
