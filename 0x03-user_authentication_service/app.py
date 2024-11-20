@@ -28,7 +28,7 @@ def users(email, password):
     """
     try:
         Auth.register_user(email, password)
-        return jsonify({"email": {email}, "message": "user created"})
+        return jsonify({"email": email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
         return 400
