@@ -21,7 +21,7 @@ def home():
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route('/users', methods = ['POST'])
+@app.route('/users')
 def users(email, password):
     """
     defines a route to reqister users
