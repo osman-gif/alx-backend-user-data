@@ -32,6 +32,26 @@ class Auth:
             self._db.add_user(email, hpwd)
             return user
 
+    def valid_login(self, email, password):
+        """
+        checks if user exist, if true check if
+        password and user hashed password are
+        identical, if so retun true else retun
+        false
+        """
+        import bcrypt
+        try:
+            user = self._db.find_user_by(email=email)
+            user = bcrypt.checkpw(password=password,
+                                  hashed_password=user.hashed_password)
+            if user is True:
+                return True
+            else:
+                return False
+
+        except NoResultFound:
+            return False
+
 
 def _hash_password(password: str):
     """
