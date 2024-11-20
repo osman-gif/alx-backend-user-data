@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 from user import Base
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -15,7 +17,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -28,7 +30,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> None:
         """Add a user to the database
         """
@@ -37,3 +39,38 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs):
+        """
+        find a user
+        """
+
+        from user import User
+
+        user = None
+        keys = list(kwargs.keys())
+        user_dict_keys = list(User.__dict__.keys())
+
+        for key in keys:
+            if key not in user_dict_keys:
+                raise InvalidRequestError
+
+        user = self._session.query(User).filter_by(**kwargs).first()
+
+        if user is None:
+            raise NoResultFound
+
+        return user
+
+    def update_user(self, user_id, **kwargs):
+        """
+        updates a user based on user_id
+        """
+
+        from user import User
+
+        user = self.find_user_by(id=user_id)
+
+        self._session.query(User).filter_by(id=user.id).update(kwargs)
+
+        return None
