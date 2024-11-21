@@ -38,7 +38,7 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'])
-def login():
+def login() -> str:
     """
     A function to respond to the POST /sessions route.
     The request is expected to contain form data with "email" and a
@@ -66,8 +66,8 @@ def login():
         return abort(401)
 
 
-@app.route('/session', methods=['DELETE'])
-def logout():
+@app.route('/sessions', methods=['DELETE'])
+def logout() -> str:
     """
      function to respond to the DELETE /sessions route.
      The request is expected to contain the session ID as a cookie with key
@@ -90,7 +90,7 @@ def logout():
 
 
 @app.route('/profile')
-def profile():
+def profile() -> str:
     """
     function to respond to the GET /profile route.
     The request is expected to contain a session_id cookie. Use it to find
@@ -111,7 +111,7 @@ def profile():
 
 
 @app.route('/reset_password', methods=['POST'])
-def get_reset_password_token():
+def get_reset_password_token() -> str:
     email = request.form.get('email')
     try:
         user = AUTH._db.find_user_by(email=email)

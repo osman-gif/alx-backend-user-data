@@ -14,7 +14,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email, password):
+    def register_user(self, email: str, password: str) -> None:
         """
         A method that take mandatory email and password string arguments
         and return a User object.
@@ -35,7 +35,7 @@ class Auth:
             self._db.add_user(email, hpwd)
             return user
 
-    def valid_login(self, email, password):
+    def valid_login(self, email: str, password: str) -> bool:
         """
         checks if user exist, if true check if
         password and user hashed password are
@@ -55,15 +55,18 @@ class Auth:
         except NoResultFound:
             return False
 
-    def _generate_uuid(self):
+    def _generate_uuid(self) -> str:
         """
-        return a string representation of a new UUID. Use the uuid module.
+        A method that returns a string representation of a new UUID.
+
+        The UUID should be generated with the uuid module and should be
+        stored in lowercase.
         """
         import uuid
 
-        return repr(uuid.uuid4())
+        return str(uuid.uuid)
 
-    def create_session(self, email):
+    def create_session(self, email: str) -> str:
         """
         Takes an email string argument and returns the session ID as a
         string.
@@ -80,7 +83,7 @@ class Auth:
         except NoResultFound:
             return None
 
-    def get_user_from_session_id(self, session_id):
+    def get_user_from_session_id(self, session_id: str) -> str:
         """
         A method taht takes a single session_id string argument and
         returns the corresponding User or None.
@@ -94,7 +97,7 @@ class Auth:
         except NoResultFound:
             return None
 
-    def destroy_session(self, user_id):
+    def destroy_session(self, user_id: int) -> None:
         """
         The method takes a single user_id integer argument and returns None.
 
@@ -107,7 +110,7 @@ class Auth:
             return None
         return None
 
-    def get_reset_password_token(self, email):
+    def get_reset_password_token(self, email: str) -> str:
         """
         function to respond to the POST /reset_password route.
         The request is expected to contain form data with the "email" field.
@@ -126,7 +129,7 @@ class Auth:
         except NoResultFound:
             raise ValueError
 
-    def update_password(self, reset_token, password):
+    def update_password(self, reset_token: str, password: str) -> None:
         """
         method. It takes reset_token string argument and a password string
         argument and returns None.
@@ -144,7 +147,7 @@ class Auth:
             raise ValueError
 
 
-def _hash_password(password: str):
+def _hash_password(password: str) -> bytes:
     """
     A method that takes in a password string arguments
     and returns bytes.

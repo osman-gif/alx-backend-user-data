@@ -2,7 +2,6 @@
 """DB module
 """
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
@@ -32,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str):
+    def add_user(self, email: str, hashed_password: str) -> object:
         """
         method, which has two required string arguments: email and
         hashed_password, and returns a User object.
@@ -44,7 +43,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> object:
         """
         This method takes in arbitrary keyword arguments and returns the
         first row found in the users table as filtered by the method’s input
@@ -68,7 +67,7 @@ class DB:
 
         return user
 
-    def update_user(self, user_id, **kwargs):
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         method that takes as argument a required user_id integer and arbitrary
         keyword arguments, and returns None.
