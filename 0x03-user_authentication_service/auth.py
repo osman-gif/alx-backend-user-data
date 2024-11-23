@@ -56,14 +56,17 @@ class Auth:
 
     def _generate_uuid(self) -> str:
         """
-        A method that returns a string representation of a new UUID.
+        In this task you will implement a _generate_uuid function in
+        the auth module.
+        The function should return a string representation
+        of a new UUID. Use the uuid module.
 
-        The UUID should be generated with the uuid module and should be
-        stored in lowercase.
+        Note that the method is private to the auth module and should NOT be
+        used outside of it.
         """
         import uuid
 
-        return str(uuid.uuid)
+        return str(uuid.uuid4())
 
     def create_session(self, email: str) -> str:
         """
