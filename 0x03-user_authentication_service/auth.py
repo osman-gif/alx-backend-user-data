@@ -38,21 +38,19 @@ class Auth:
 
     def valid_login(self, email: str, password: str) -> bool:
         """
-        checks if user exist, if true check if
-        password and user hashed password are
-        identical, if so retun true else retun
-        false
+        In this task, you will implement the Auth.valid_login method.
+        It should expect email and password required arguments and return a
+        boolean.
+        Try locating the user by email. If it exists, check the password with
+        bcrypt.checkpw.
+        If it matches return True. In any other case, return False
         """
         import bcrypt
+        
         try:
             user = self._db.find_user_by(email=email)
-            correct_password = bcrypt.checkpw(
-                password=password, hashed_password=user.hashed_password)
-            if user is not None and correct_password:
-                return True
-            else:
-                return False
-
+            return bcrypt.checkpw(password.encode('utf-8'),
+                                  user.hashed_password)
         except NoResultFound:
             return False
 
