@@ -54,20 +54,6 @@ class Auth:
         except NoResultFound:
             return False
 
-    def _generate_uuid(self) -> str:
-        """
-        In this task you will implement a _generate_uuid function in
-        the auth module.
-        The function should return a string representation
-        of a new UUID. Use the uuid module.
-
-        Note that the method is private to the auth module and should NOT be
-        used outside of it.
-        """
-        import uuid
-
-        return str(uuid.uuid4())
-
     def create_session(self, email: str) -> str:
         """
         Takes an email string argument and returns the session ID as a
@@ -79,7 +65,7 @@ class Auth:
         """
         try:
             user = self.find_user_by(email=email)
-            session_id = self._generate_uuid()
+            session_id = _generate_uuid()
             self._db.update_user(user.id, session_id=session_id)
             return session_id
         except NoResultFound:
@@ -125,7 +111,7 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            token = self._generate_uuid()
+            token = _generate_uuid()
             self.db.update_user(user.id, reset_token=token)
             return token
         except NoResultFound:
@@ -162,3 +148,17 @@ def _hash_password(password: str) -> bytes:
     hashed = bcrypt.hashpw(bytes(password, encoding='utf-8'),
                            bcrypt.gensalt(12))
     return hashed
+
+def _generate_uuid(self) -> str:
+        """
+        In this task you will implement a _generate_uuid function in
+        the auth module.
+        The function should return a string representation
+        of a new UUID. Use the uuid module.
+
+        Note that the method is private to the auth module and should NOT be
+        used outside of it.
+        """
+        import uuid
+
+        return str(uuid.uuid4())
