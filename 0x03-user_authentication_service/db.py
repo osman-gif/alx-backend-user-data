@@ -57,12 +57,12 @@ class DB:
 
         for key in keys:
             if key not in user_dict_keys:
-                raise InvalidRequestError
+                raise InvalidRequestError(f"Invalid")
 
         user = self._session.query(User).filter(**kwargs).first()
 
         if user is None:
-            raise NoResultFound
+            raise NoResultFound(f"Not found")
 
         return user
 
