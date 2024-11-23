@@ -51,19 +51,17 @@ def login() -> str:
     {"email": "<user email>", "message": "logged in"}
 
     """
-    email = request.form.get('email')
-    password = request.form('password')
 
-    valid_user = AUTH.valid_login(email=email, password=password)
-    if valid_user:
-        session_id = AUTH.create_session(email=email)
-        if session_id is not None:
-            response = make_response()
-            response.set_cookie('session_id', session_id)
-            return jsonify(
-                {"email": "{email}", "message": "logged in"}), response
-    else:
-        return abort(401)
+    email = request.form.get('email')
+    password = request.form.get('password')
+    try:
+        AUTH.valid_login(email, password)
+        session_id = AUTH.create_session(email)
+        response = jsonify({"email": "{email}", "message": "logged in"})
+        response.set_cookie('session_id', session_id)
+        return response
+    except ValueError:
+        abort(401)
 
 
 @app.route('/sessions', methods=['DELETE'])
