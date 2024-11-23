@@ -38,7 +38,7 @@ class DB:
         hashed_password, and returns a User object.
         The method should save the user to the database
         """
-        
+
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
@@ -51,12 +51,10 @@ class DB:
         arguments. No validation of input arguments required at this point.
         """
 
-        
-
         user = None
         keys = list(kwargs.keys())
         user_dict_keys = list(User.__dict__.keys())
-    
+
         for key in keys:
             if key not in user_dict_keys:
                 raise InvalidRequestError
@@ -85,7 +83,7 @@ class DB:
         for key in keys:
             if key not in User.__dict__.keys():
                 raise ValueError
-            
+
         user = self.find_user_by(id=user_id)
 
         self._session.query(User).filter_by(id=user.id).update(kwargs)
