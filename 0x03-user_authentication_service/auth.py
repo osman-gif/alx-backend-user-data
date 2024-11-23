@@ -5,6 +5,7 @@ defines Auth class
 from db import DB
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+from user import User
 
 
 class Auth:
@@ -14,7 +15,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> None:
+    def register_user(self, email: str, password: str) -> User:
         """
         A method that take mandatory email and password string arguments
         and return a User object.
