@@ -162,4 +162,4 @@ def _generate_uuid(self) -> str:
     """
     import uuid
 
-    return repr(uuid.uuid4())
+    return str(uuid.UUID())
