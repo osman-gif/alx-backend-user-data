@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 from user import Base
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+from user import User
 
 
 class DB:
@@ -31,36 +32,36 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> object:
+    def add_user(self, email: str, hashed_password: str) -> User:
         """
         method, which has two required string arguments: email and
         hashed_password, and returns a User object.
         The method should save the user to the database
         """
-        from user import User
+        
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs) -> object:
+    def find_user_by(self, **kwargs) -> User:
         """
         This method takes in arbitrary keyword arguments and returns the
         first row found in the users table as filtered by the method’s input
         arguments. No validation of input arguments required at this point.
         """
 
-        from user import User
+        
 
         user = None
         keys = list(kwargs.keys())
         user_dict_keys = list(User.__dict__.keys())
-
+    
         for key in keys:
             if key not in user_dict_keys:
                 raise InvalidRequestError
 
-        user = self._session.query(User).filter_by(**kwargs).first()
+        user = self._session.query(User).filter(**kwargs).first()
 
         if user is None:
             raise NoResultFound
@@ -79,8 +80,12 @@ class DB:
         raise a ValueError.
         """
 
-        from user import User
+        keys = dict(kwargs=kwargs)
 
+        for key in keys:
+            if key not in User.__dict__.keys():
+                raise ValueError
+            
         user = self.find_user_by(id=user_id)
 
         self._session.query(User).filter_by(id=user.id).update(kwargs)
