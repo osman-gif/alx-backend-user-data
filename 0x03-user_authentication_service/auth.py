@@ -149,16 +149,17 @@ def _hash_password(password: str) -> bytes:
                            bcrypt.gensalt(12))
     return hashed
 
+
 def _generate_uuid(self) -> str:
-        """
-        In this task you will implement a _generate_uuid function in
-        the auth module.
-        The function should return a string representation
-        of a new UUID. Use the uuid module.
+    """
+    In this task you will implement a _generate_uuid function in
+    the auth module.
+    The function should return a string representation
+    of a new UUID. Use the uuid module.
 
-        Note that the method is private to the auth module and should NOT be
-        used outside of it.
-        """
-        import uuid
+    Note that the method is private to the auth module and should NOT be
+    used outside of it.
+    """
+    import uuid
 
-        return str(uuid.uuid4())
+    return repr(uuid.uuid4())
