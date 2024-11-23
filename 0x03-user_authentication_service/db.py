@@ -46,25 +46,23 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """
-        This method takes in arbitrary keyword arguments and returns the
-        first row found in the users table as filtered by the method’s input
-        arguments. No validation of input arguments required at this point.
+        In this task you will implement the DB.find_user_by method.
+        This method takes in arbitrary keyword arguments and returns
+        the first row found in the users table as filtered by the method’s
+        input arguments. No validation of input arguments required at this
+        point.
+        Make sure that SQLAlchemy’s NoResultFound and InvalidRequestError
+        are raised when no results are found, or when wrong query arguments
+        are passed, respectively.
         """
 
-        user = None
-        keys = list(kwargs.keys())
-        user_dict_keys = list(User.__dict__.keys())
-
-        for key in keys:
-            if key not in user_dict_keys:
-                raise InvalidRequestError(f"Invalid")
-
-        user = self._session.query(User).filter(**kwargs).first()
-
-        if user is None:
-            raise NoResultFound(f"Not found")
-
-        return user
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if user is None:
+                raise NoResultFound
+            return user
+        except InvalidRequestError:
+            raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """
