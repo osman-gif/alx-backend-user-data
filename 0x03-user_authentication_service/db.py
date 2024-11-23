@@ -76,14 +76,9 @@ class DB:
         raise a ValueError.
         """
 
-        keys = dict(kwargs=kwargs)
-
-        for key in keys:
-            if key not in User.__dict__.keys():
-                raise ValueError
-
-        user = self.find_user_by(id=user_id)
-
-        self._session.query(User).filter_by(id=user.id).update(kwargs)
-
-        return None
+        try:
+            user = self.find_user_by(id=user_id)
+            self._session.query(User).filter_by(id=user.id).update(kwargs)
+            return None
+        except InvalidRequestError:
+            raise ValueError
