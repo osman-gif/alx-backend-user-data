@@ -63,13 +63,13 @@ class Auth:
         generate a new UUID and store it in the database as the user’s
         session_id, then return the session ID.
         """
+        session_id = _generate_uuid()
         try:
-            user = self.find_user_by(email=email)
-            session_id = _generate_uuid()
+            user = self._db.find_user_by(email=email)
             self._db.update_user(user.id, session_id=session_id)
             return session_id
         except NoResultFound:
-            return None
+            pass
 
     def get_user_from_session_id(self, session_id: str) -> str:
         """
