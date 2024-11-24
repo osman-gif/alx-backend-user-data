@@ -150,7 +150,7 @@ def _hash_password(password: str) -> bytes:
     return hashed
 
 
-def _generate_uuid(self) -> str:
+def _generate_uuid() -> str:
     """
     In this task you will implement a _generate_uuid function in
     the auth module.
